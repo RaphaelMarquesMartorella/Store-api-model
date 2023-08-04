@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const clientSchema = new mongoose.Schema ({
     clientId: {
         type: mongoose.Schema.Types.ObjectId,
+        default: new mongoose.Types.ObjectId(),
         unique: true
     },
     fullName: {

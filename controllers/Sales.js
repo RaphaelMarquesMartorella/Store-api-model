@@ -1,28 +1,31 @@
 const Sales = require("../model/sales");
 const Stock = require('../model/stock')
+const Client = require('../model/client')
 
 
 const createSales = async (req, res) => {
     const { clientId, productId } = req.body;
     try {
-      // Find the existing sale document for the client
+      const client = await Client.findOne({clientId}).exec()
       let existingSale = await Sales.findOne({ clientId }).exec();
+      if(client) {
+        
   
       if (!existingSale) {
-        // If no sale exists for the client, create a new one
         existingSale = new Sales({
           clientId: clientId,
           productId: [productId],
         });
       } else {
-        // If a sale already exists for the client, push the new productId to the array
         existingSale.productId.push(productId);
       }
   
-      // Save the updated sale document
+      }else {
+        res.json({error: 'There is no client with this clientId.'}).status(500)
+      }
+      
       await existingSale.save();
   
-      // Update the stock
       const stock = await Stock.findOne({ productId }).exec();
       if (stock) {
         stock.stockNumber--;

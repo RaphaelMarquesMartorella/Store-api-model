@@ -4,7 +4,7 @@ const saleSchema = new mongoose.Schema(
   {
     saleId: {
       type: mongoose.Schema.Types.ObjectId,
-      default: new mongoose.Types.ObjectId(), // Set the default value here
+      default: new mongoose.Types.ObjectId(),
     },
     clientId: {
       type: mongoose.Schema.Types.ObjectId,

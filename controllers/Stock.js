@@ -1,16 +1,15 @@
 const Stock = require('../model/stock')
+const Product = require('../model/product')
 
 const createStock = async (req, res) => {
     const { productId, stockNumber } = req.body;
     try {
       const existingStock = await Stock.findOne({ productId }).exec();
       if (existingStock) {
-        // If stock already exists for the product, update the quantity
         existingStock.stockNumber += stockNumber;
         await existingStock.save();
         res.status(201).json(existingStock);
       } else {
-        // If no stock exists for the product, create a new one
         const newStock = new Stock({
           productId,
           stockNumber,
@@ -23,8 +22,43 @@ const createStock = async (req, res) => {
       res.status(500).json({ error: "It was not possible to create the stock." });
     }
   };
+
+  getStock = async (req,res) => {
+    const { productId } = req.body;
+    try {
+      const stock = await Stock.findOne({productId})
+    if(stock) {
+      res.json(stock).status(200)
+    }else {
+      res.json({error: 'Could not find this stock'}).status(200)
+    }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+
+  const getAllStock = async (req, res) => {
+    try {
+      let allStock = await Stock.find();
+      let totalStock = 0;
+  
+      for (let index = 0; index < allStock.length; index++) {
+        const stockItem = allStock[index];
+        totalStock += stockItem.stockNumber;
+      }
+  
+      res.json({ totalStock }).status(200);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Unable to get stock data." });
+    }
+  };
+  
   
 
 module.exports = {
-    createStock
+    createStock,
+    getStock,
+    getAllStock,
 }

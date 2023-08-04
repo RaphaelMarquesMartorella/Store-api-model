@@ -1,10 +1,9 @@
 const Client = require("../model/client");
 
 const createClient = async (req, res) => {
-  const { clientId, fullName, adress, email, phone } = req.body;
+  const { fullName, adress, email, phone } = req.body;
   try {
     const response = await Client.create({
-        clientId,
         fullName,
         adress,
         email,
@@ -16,7 +15,6 @@ const createClient = async (req, res) => {
   }
 
   const response = await Client.create({
-    clientId,
     fullName,
     adress,
     email,

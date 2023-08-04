@@ -7,7 +7,7 @@ const createProduct = async (req,res) => {
         if(response){
             res.json(response).status(201)
         }else {
-            res.json('There was a problema.').status(500)
+            res.json('There was a problem.').status(500)
         }
     } catch (error) {
         
