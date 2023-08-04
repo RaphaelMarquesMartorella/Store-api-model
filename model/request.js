@@ -15,16 +15,20 @@ const requestSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'clients'
   },  
-  productId: {
+  productId: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'products'
-  },
+  }],
   status: {
     type: String
   },
   quantity: {
     type: Number
   },
-});
+ 
+}, 
+{
+    timestamps:true
+  });
 
 module.exports = mongoose.model('requests', requestSchema);

@@ -24,7 +24,7 @@ const saleSchema = new mongoose.Schema(
 );
 
 saleSchema.pre("save", function (next) {
-  if (this.isNew || this.isModified("clientId")) {
+  if (this.isNew || this.isModified("clientId") || this.isModified("productId")) {
     this.saleId = new mongoose.Types.ObjectId();
   }
   next();
