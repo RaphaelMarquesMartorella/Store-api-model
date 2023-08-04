@@ -32,7 +32,7 @@ const createSales = async (req, res) => {
         await stock.save();
       }
   
-      res.status(201).json(existingSale);
+      res.status(201).json({existingSale});
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "It was not possible to create this sale." });
@@ -44,7 +44,7 @@ const createSales = async (req, res) => {
 const getSales = async (req, res) => {
   try {
     const response = await Sales.find({});
-    res.json(response).staus(200);
+    res.json({allSales:response}).status(200);
   } catch (error) {
     console.log(error);
     res.json({ error: "It was not possible to get the sales." });

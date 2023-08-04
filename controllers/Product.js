@@ -19,7 +19,7 @@ const createProduct = async (req,res) => {
 const getProducts = async (req,res) => {
     try {
         const response = await Product.find({})
-        res.json(response).status(200)
+        res.json({allProducts: response}).status(200)
     } catch (error) {
         
         console.log(error);

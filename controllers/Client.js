@@ -8,7 +8,7 @@ const createClient = async (req, res) => {
         adress,
         email,
         phone,
-      });
+    });
       res.json(response).status(201);
   } catch (error) {
     console.log(error);
@@ -27,7 +27,7 @@ const getClients = async (req,res) => {
     
     try {
         const response = await Client.find({})
-        res.json(response).status(200)
+        res.json({allClients: response}).status(200)
     } catch (error) {
         console.log(error);
     }
