@@ -15,12 +15,14 @@ const clientRouter = require('./router/client')
 const productRouter = require('./router/product')
 const saleRouter = require('./router/sales')
 const stockRouter = require('./router/stock')
+const requestRouter = require('./router/request')
 
 
 app.use('/api/v1/', clientRouter)
 app.use('/api/v1/', productRouter)
 app.use('/api/v1/', saleRouter)
 app.use('/api/v1/', stockRouter)
+app.use('/api/v1/', requestRouter)
 
 
 const start = async () => {

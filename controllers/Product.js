@@ -21,7 +21,7 @@ const getProducts = async (req,res) => {
         const response = await Product.find({})
         res.json({allProducts: response}).status(200)
     } catch (error) {
-        
+        res.json({error: 'It was not possible to get this product.'}).status(500)
         console.log(error);
     }
 }
@@ -46,15 +46,17 @@ const updateProduct = async (req,res) => {
 
 const deleteProduct = async (req,res) => {
     try {
-        const response = await Product.findByIdAndDelete({_id: req.params.id})
-        if(response) {
-            res.json({response: 'The removal was succesfull!'}).status(200)
+        const response = await Product.findByIdAndRemove({_id: req.params.id})
+        if(response){
+            res.json('The removal was succesfull.').status(200)
+        }else {
+            res.json('There is no item that match this id.').status(500)
         }
-
     } catch (error) {
-     console.log(error);   
+        console.log(error);
     }
 }
+    
 
 
 module.exports = {

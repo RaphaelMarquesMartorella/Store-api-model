@@ -99,7 +99,7 @@ const deleteSale = async (req, res) => {
   try {
     const response = await Sales.findByIdAndDelete({ _id: req.params.id });
     if (response) {
-      res.json(response).staus(200);
+      res.json({message: 'The removal was successfull.'}).status(200);
     } else {
       res.json("It was not possible to delete this sale.").staus(200);
     }

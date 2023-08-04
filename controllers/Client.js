@@ -13,14 +13,6 @@ const createClient = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-
-  const response = await Client.create({
-    fullName,
-    adress,
-    email,
-    phone,
-  });
-  res.json(response).status(201);
 };
 
 const getClients = async (req,res) => {
