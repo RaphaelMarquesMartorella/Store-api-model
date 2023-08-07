@@ -14,6 +14,6 @@ const {
 router.get('/sales', getSales).get('/sale/:id', getOneSale)
 router.post('/sale', createSales)
 router.put('/sale/:id', updateSale)
-router.delete('sale/:id', deleteSale)
+router.delete('/sale/:id', deleteSale)
 
 module.exports = router

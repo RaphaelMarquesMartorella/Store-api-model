@@ -9,7 +9,7 @@ const createClient = async (req, res) => {
         email,
         phone,
     });
-      res.json(response).status(201);
+      res.json({ message: "Client created successfully!",client: response}).status(201);
   } catch (error) {
     console.log(error);
   }

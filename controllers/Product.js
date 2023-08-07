@@ -5,7 +5,7 @@ const createProduct = async (req,res) => {
     try {
         const response = await Product.create({...req.body})
         if(response){
-            res.json(response).status(201)
+            res.json({message: "Product created successfully!", Product: response}).status(201)
         }else {
             res.json('There was a problem.').status(500)
         }
@@ -46,7 +46,7 @@ const updateProduct = async (req,res) => {
 
 const deleteProduct = async (req,res) => {
     try {
-        const response = await Product.findByIdAndRemove({_id: req.params.id})
+        const response = await Product.findByIdAndRemove(req.params.id)
         if(response){
             res.json('The removal was succesfull.').status(200)
         }else {

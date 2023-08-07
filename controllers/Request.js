@@ -1,12 +1,15 @@
 const Request = require("../model/request");
 const Sales = require("../model/sales");
 
-const createRequest = async (req, res) => {
-  const { saleId, status, quantity } = req.body;
+const createRequestPerClient = async (req, res) => {
+  const { saleId, status, clientId } = req.body;
   try {
-    const existingSale = await Sales.findOne({ saleId });
+    const existingSales = await Sales.find({ clientId });
 
-    if (existingSale) {
+    if (existingSales.length > 0) {
+      const productIds = existingSales.flatMap((sale) => sale.productId);
+      const quantity = productIds.length;
+
       const existingRequest = await Request.findOne({ saleId });
 
       if (!existingRequest) {
@@ -14,10 +17,10 @@ const createRequest = async (req, res) => {
           saleId,
           status,
           quantity,
-          productId: existingSale.productId,
-          clientId:existingSale.clientId
-          
+          productId: productIds,
+          clientId,
         });
+
         await newRequest.save();
         res.json(newRequest).status(201);
       } else {
@@ -27,7 +30,36 @@ const createRequest = async (req, res) => {
       }
     } else {
       res
-        .json({ error: "Could not find a sale that matches the saleId." })
+        .json({ error: "Could not find any sales that match the clientId." })
+        .status(404);
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ error: "It was not possible to create a request." }).status(500);
+  }
+};
+
+const createRequest = async (req, res) => {
+  const { saleId, status } = req.body;
+  try {
+    let existingSale = await Sales.findOne({ saleId });
+    const existingRequest = await Request.findOne({ saleId });
+    let quantity = existingSale.productId.length;
+
+    if (!existingRequest) {
+      
+      const newRequest = new Request({
+        saleId,
+        clientId: existingSale.clientId,
+        productId: existingSale.productId,
+        status,
+        quantity,
+      });
+      await newRequest.save();
+      res.json({message: "Request created successfully!", Request: newRequest}).status(200);
+    } else {
+      res
+        .json({ error: "There is already a request for the sale." })
         .status(404);
     }
   } catch (error) {
@@ -38,7 +70,7 @@ const createRequest = async (req, res) => {
 
 const getOneRequest = async (req, res) => {
   try {
-    const existingRequest = await Request.findById({ _id: req.params.id });
+    const existingRequest = await Request.findById(req.params.id);
     res.json({ existingRequest }).status(200);
   } catch (error) {
     res.json({ error: "It was not possible to get this request." }).status(500);
@@ -57,7 +89,7 @@ const getRequests = async (req, res) => {
 const updateRequest = async (req, res) => {
   const { status } = req.body;
   try {
-    let existingRequest = await Request.findById({ _id: req.params.id });
+    let existingRequest = await Request.findById(req.params.id);
     if (existingRequest) {
       existingRequest.status = status;
       await existingRequest.save();

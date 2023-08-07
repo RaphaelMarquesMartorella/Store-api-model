@@ -16,11 +16,13 @@ const clientSchema = new mongoose.Schema ({
     },
     email: {
         type: String,
-        required: [true, 'Please provide an e-mail.']
+        required: [true, 'Please provide an e-mail.'],
+        unique: true
     },
     phone: {
         type: Number,
-        required: [true, 'Please provide a phone number.']
+        required: [true, 'Please provide a phone number.'],
+        unique: true
     }
 })
 
