@@ -1,14 +1,20 @@
 const Product = require('../model/product')
 
 const createProduct = async (req,res) => {
-    
+    const {productName} = req.body
     try {
+        const existingProduct = await Product.findOne({productName})
         const response = await Product.create({...req.body})
-        if(response){
-            res.json({message: "Product created successfully!", Product: response}).status(201)
-        }else {
-            res.json('There was a problem.').status(500)
+        if(!existingProduct) {
+            if(response){
+                res.json({message: "Product created successfully!", Product: response}).status(201)
+            }else {
+                res.json('There was a problem.').status(500)
+            }
+        } else {
+            res.json({error: 'This product was already added.'})
         }
+        
     } catch (error) {
         
         console.log(error);
