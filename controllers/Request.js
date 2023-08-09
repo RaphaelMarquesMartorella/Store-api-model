@@ -120,6 +120,7 @@ const deleteRequest = async (req, res) => {
 };
 
 module.exports = {
+  createRequestPerClient,
   createRequest,
   getOneRequest,
   getRequests,

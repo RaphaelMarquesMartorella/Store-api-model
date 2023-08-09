@@ -40,7 +40,7 @@ getStock = async (req, res) => {
       res.json({ error: "Could not find this stock" }).status(200);
     }
   } catch (error) {
-    res.json({error: 'It was not possible  to get this stock.'})
+    res.json({error: 'It was not possible  to get this stock.'}).status(500);
     console.log(error);
   }
 };
@@ -107,7 +107,7 @@ const deleteStock = async (req, res) => {
   Stock.findByIdAndDelete({ _id: req.params.id })
     .then((deletedStock) => {
       if (deletedStock) {
-        res.json({ message: "Your removal was successfull!" });
+        res.json({ message: "Your removal was successfull!" }).status(200);
       } else {
         res.json({ error: "There is no item that match this id." }).status(404);
       }

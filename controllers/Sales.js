@@ -62,7 +62,7 @@ const getSales = async (req, res) => {
     res.json({ allSales: response }).status(200);
   } catch (error) {
     console.log(error);
-    res.json({ error: "It was not possible to get the sales." });
+    res.json({ error: "It was not possible to get the sales." }).status(500);
   }
 };
 
@@ -72,7 +72,7 @@ const getOneSale = async (req, res) => {
     res.json(response).status(200);
   } catch (error) {
     console.log(error);
-    res.json({ error: "It was not possible to get this sale." });
+    res.json({ error: "It was not possible to get this sale." }).status(500);
   }
 };
 
@@ -138,7 +138,7 @@ const deleteSale = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.json({ error: "It was not possible to delete this sale." });
+    res.json({ error: "It was not possible to delete this sale." }).status(500);
   }
 };
 
