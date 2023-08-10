@@ -19,12 +19,13 @@
 
 ## Screenshots
 
-![App Screenshot]![print-1 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/1249505d-a9c0-4266-bb06-e2e71ca7f288)
+![Screenshot (95)](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/dc3b342b-e9a9-41d4-bcd5-ad183fcb2b9c)
 
-![print-2 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/d8b3de44-7614-4c7f-b3e4-fd46cb00eef3)
 
-![print-3 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/ac8b1e94-a822-4bcd-8a99-39af1ed35068)
+![Screenshot (96)](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/596105b9-a563-4128-b4b1-c8bb3cc5da4e)
 
+
+![Screenshot (97)](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/4c68aa1a-e66b-49b8-9e46-ec5ccffba529)
 
 
 ## Documentation
