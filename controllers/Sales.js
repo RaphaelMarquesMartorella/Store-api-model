@@ -5,32 +5,30 @@ const Product = require("../model/product");
 
 const createSales = async (req, res) => {
   const { clientId, productId } = req.body;
+  
   try {
-    const client = await Client.findOne({ clientId }).exec();
     const products = await Product.find({
       productId: { $in: productId },
     }).exec();
 
-    if (!client) {
-      return res
-        .status(404)
-        .json({ error: "There is no client with this clientId." });
-    }
+    const allProductsExist = productId.every((id) =>
+      products.some((product) => product.productId.equals(id))
+    );
 
-    if (!products) {
+    if (!allProductsExist) {
       return res.status(404).json({
-        error:
-          "There is no product with one or more of the provided productIds.",
+        error: "One or more productIds do not exist in the products database.",
       });
     }
 
-    if (!productId || !Array.isArray(productId)) {
-      return res
-        .status(400)
-        .json({ error: "Invalid productId array provided." });
+    const client = await Client.findOne({ clientId }).exec();
+
+    if (!client) {
+      return res.status(404).json({ error: "There is no client with this clientId." });
     }
 
     let existingSale = await Sales.findOne({ clientId }).exec();
+
 
     existingSale = new Sales({
       clientId: clientId,
@@ -56,6 +54,10 @@ const createSales = async (req, res) => {
   }
 };
 
+
+
+
+
 const getSales = async (req, res) => {
   try {
     const response = await Sales.find({});
@@ -78,11 +80,13 @@ const getOneSale = async (req, res) => {
 
 const updateSale = async (req, res) => {
   const { clientId, productId } = req.body;
+  
   try {
     const products = await Product.find({
       productId: { $in: productId },
     }).exec();
     let existingSale = await Sales.findById({ _id: req.params.id }).exec();
+    
 
     if (!existingSale) {
       return res.status(404).json({ message: "Sale not found." });
@@ -99,11 +103,13 @@ const updateSale = async (req, res) => {
           });
       }
 
-      // Check if there are any changes
+      const existingProductIds = existingSale.productId.map(String);
+      const newProductIds = productId.map(String);
+
       const hasChanges =
         !existingSale.clientId.equals(clientId) ||
         existingSale.productId.length !== productId.length ||
-        existingSale.productId.some((id, index) => !id.equals(productId[index]));
+        existingProductIds.some((id) => !newProductIds.includes(id));
 
       if (!hasChanges) {
         return res
@@ -126,6 +132,7 @@ const updateSale = async (req, res) => {
     res.status(500).json({ error: "Could not update this sale." });
   }
 };
+
 
 
 const deleteSale = async (req, res) => {

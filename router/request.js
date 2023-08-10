@@ -33,12 +33,10 @@ const {
  *                 type: string
  *               status:
  *                 type: string
- *               clientId:
- *                 type: string
  *             required:
  *               - saleId
  *               - status
- *               - clientId
+ *               
  *     responses:
  *       201:
  *         description: Request created successfully

@@ -17,7 +17,7 @@ const {
 
 /**
  * @swagger
- * /api/v1/sales:
+ * /api/v1/sale:
  *   post:
  *     summary: Create a new sale
  *     tags: [Sales]
@@ -30,10 +30,12 @@ const {
  *             properties:
  *               clientId:
  *                 type: string
+ *                 format: ObjectId  # Change this to ObjectId
  *               productId:
  *                 type: array
  *                 items:
  *                   type: string
+ *                   format: ObjectId  # Change this to ObjectId
  *             required:
  *               - clientId
  *               - productId
@@ -47,7 +49,7 @@ const {
  *       500:
  *         description: Server error
  */
-router.post('/sales', createSales);
+router.post('/sale', createSales);
 
 /**
  * @swagger
@@ -65,7 +67,7 @@ router.get('/sales', getSales);
 
 /**
  * @swagger
- * /api/v1/sales/{id}:
+ * /api/v1/sale/{id}:
  *   get:
  *     summary: Get a single sale by ID
  *     tags: [Sales]
@@ -83,11 +85,11 @@ router.get('/sales', getSales);
  *       500:
  *         description: Server error
  */
-router.get('/sales/:id', getOneSale);
+router.get('/sale/:id', getOneSale);
 
 /**
  * @swagger
- * /api/v1/sales/{id}:
+ * /api/v1/sale/{id}:
  *   put:
  *     summary: Update a sale by ID
  *     tags: [Sales]
@@ -106,10 +108,12 @@ router.get('/sales/:id', getOneSale);
  *             properties:
  *               clientId:
  *                 type: string
+ *                 format: ObjectId
  *               productId:
  *                 type: array
  *                 items:
  *                   type: string
+ *                   format: ObjectId
  *             required:
  *               - clientId
  *               - productId
@@ -123,11 +127,11 @@ router.get('/sales/:id', getOneSale);
  *       500:
  *         description: Server error
  */
-router.put('/sales/:id', updateSale);
+router.put('/sale/:id', updateSale);
 
 /**
  * @swagger
- * /api/v1/sales/{id}:
+ * /api/v1/sale/{id}:
  *   delete:
  *     summary: Delete a sale by ID
  *     tags: [Sales]
@@ -145,6 +149,6 @@ router.put('/sales/:id', updateSale);
  *       500:
  *         description: Server error
  */
-router.delete('/sales/:id', deleteSale);
+router.delete('/sale/:id', deleteSale);
 
 module.exports = router;

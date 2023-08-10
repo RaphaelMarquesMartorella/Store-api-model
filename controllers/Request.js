@@ -44,6 +44,8 @@ const createRequest = async (req, res) => {
   try {
     let existingSale = await Sales.findOne({ saleId });
     const existingRequest = await Request.findOne({ saleId });
+    if(existingSale) {
+      
     let quantity = existingSale.productId.length;
 
     if (!existingRequest) {
@@ -62,6 +64,9 @@ const createRequest = async (req, res) => {
         .json({ error: "There is already a request for the sale." })
         .status(404);
     }
+  } else {
+    res.json({error: 'There is no sale with this saleId.'})
+  }
   } catch (error) {
     console.log(error);
     res.json({ error: "It was not possible to create a request." }).status(500);

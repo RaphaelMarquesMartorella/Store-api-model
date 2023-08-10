@@ -83,7 +83,7 @@ const updateStock = async (req, res) => {
     }
 
     if (stockNumber && existingStock.stockNumber !== stockNumber) {
-      existingStock.stockNumber = stockNumber;
+      existingStock.stockNumber += stockNumber;
     }
 
     if (existingStock.isModified("productId") || existingStock.isModified("stockNumber")) {
