@@ -6,7 +6,7 @@
 
                                     API and Data Modeling for an E-commerce Store
                         
-            API developed using Node.js and its Express.js framework for an e-commerce store. Documentation created using Swagger UI
+            API developed using Node.js and its Express.js framework for an e-commerce store. Documentation created using Swagger UI.
 
                                 
 
