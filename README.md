@@ -19,9 +19,11 @@
 
 ## Screenshots
 
-![App Screenshot]("C:\Users\Raphael Marques\OneDrive\Imagens\print-1 swagger.png")
-![App Screenshot]("C:\Users\Raphael Marques\OneDrive\Imagens\print-2 swagger.png")
-![App Screenshot]("C:\Users\Raphael Marques\OneDrive\Imagens\print-3 swagger.png")
+![App Screenshot]![print-1 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/1249505d-a9c0-4266-bb06-e2e71ca7f288)
+
+![print-2 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/d8b3de44-7614-4c7f-b3e4-fd46cb00eef3)
+
+![print-3 swagger](https://github.com/RaphaelMarquesMartorella/beauty-store-api/assets/118463534/ac8b1e94-a822-4bcd-8a99-39af1ed35068)
 
 
 
