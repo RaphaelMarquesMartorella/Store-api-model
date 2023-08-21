@@ -56,17 +56,44 @@ const getProducts = async (req, res) => {
 
 const getOneProduct = async (req, res) => {
   try {
-    if(!req.user || !req.user.id) {
-      return res.status(400).json({error: 'There is no company registered as user.'})
+    if (!req.user || !req.user.id) {
+      return res.status(400).json({ error: 'There is no company registered as user.' });
     }
-    const Products = await Product.find({companyId:req.user.id});
-    const response = await Products.findById({ _id: req.params.id });
+
+    const user = await Product.find({ user: req.user.id });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: "There is no product for this user." });
+    }
+
+
+    const paramId = await Product.findOne({
+      _id: req.params.id,
+    });
+    if (!paramId) {
+      return res
+        .status(404)
+        .json({ error: "There is no client with this id param." });
+    }
+    
+    const response = await Product.findOne({
+      _id: req.params.id,
+      companyId: req.user.id
+    });
+
+    if (!response) {
+      return res.status(404).json({ error: 'Product not found.' });
+    }
+
     res.json(response).status(200);
   } catch (error) {
-    res.json({ error: "It was not possible to get this product." }).status(500);
+    res.status(500).json({ error: 'It was not possible to get this product.' });
     console.log(error);
   }
 };
+
+
 
 const updateProduct = async (req, res) => {
   
@@ -74,8 +101,9 @@ const updateProduct = async (req, res) => {
     if(!req.user || !req.user.id) {
       return res.status(400).json({error: 'There is no company registered as user.'})
     }
-    const response = await Product.findByIdAndUpdate(
-      { _id: req.params.id },
+    const response = await Product.findOneAndUpdate(
+      { _id: req.params.id,
+        companyId: req.user.id },
       req.body,
       { new: true }
     );
@@ -90,7 +118,8 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const response = await Product.findByIdAndRemove(req.params.id);
+    const response = await Product.findOneAndDelete({ _id: req.params.id,
+      companyId: req.user.id });
     if (response) {
       res.json("The removal was succesfull.").status(200);
     } else {

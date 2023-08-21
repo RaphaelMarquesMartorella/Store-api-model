@@ -32,7 +32,7 @@ const createRequestPerClient = async (req, res) => {
         await newRequest.save();
 
         res.json(newRequest).status(201);
-        
+
         const companyProduct = await Company.findOne({
           _id: newRequest.companyId,
         });
@@ -81,14 +81,13 @@ const createRequest = async (req, res) => {
           })
           .status(200);
 
-          const companyProduct = await Company.findOne({
-            _id: newRequest.companyId,
-          });
-  
-          companyProduct.requestId.push(newRequest);
-  
-          companyProduct.save();  
+        const companyProduct = await Company.findOne({
+          _id: newRequest.companyId,
+        });
 
+        companyProduct.requestId.push(newRequest);
+
+        companyProduct.save();
       } else {
         res
           .json({ error: "There is already a request for the sale." })
@@ -106,7 +105,26 @@ const createRequest = async (req, res) => {
 const getOneRequest = async (req, res) => {
   try {
     const Requests = await Request.find({ companyId: req.user.id });
-    const existingRequest = await Requests.findById(req.params.id);
+
+    if (!Requests) {
+      return res
+        .status(404)
+        .json({ error: "There is no request for this user." });
+    }
+
+    const paramId = await Request.find({ _id: req.params.id });
+
+    if (!paramId) {
+      return res
+        .status(404)
+        .json({ error: "There is no request id that match this param id." });
+    }
+
+    const existingRequest = await Request.findOne({
+      _id: req.params.id,
+      companyId: req.user.id,
+    });
+
     res.json({ existingRequest }).status(200);
   } catch (error) {
     res.json({ error: "It was not possible to get this request." }).status(500);
@@ -116,6 +134,13 @@ const getOneRequest = async (req, res) => {
 const getRequests = async (req, res) => {
   try {
     const allRequests = await Request.find({ companyId: req.user.id });
+
+    if (!allRequests) {
+      return res
+        .status(404)
+        .json({ error: "There is no request for this user." });
+    }
+
     res.json({ allRequests }).status(200);
   } catch (error) {
     res.json({ error: "It was not possible to get all requests." }).status(500);
@@ -125,7 +150,27 @@ const getRequests = async (req, res) => {
 const updateRequest = async (req, res) => {
   const { status } = req.body;
   try {
-    let existingRequest = await Request.findById(req.params.id);
+
+    const Requests = await Request.find({ companyId: req.user.id });
+
+    if (!Requests) {
+      return res
+        .status(404)
+        .json({ error: "There is no request for this user." });
+    }
+
+    const paramId = await Request.find({ _id: req.params.id });
+
+    if (!paramId) {
+      return res
+        .status(404)
+        .json({ error: "There is no request id that match this param id." });
+    }
+
+    let existingRequest = await Request.findOne({
+      _id: req.params.id,
+      companyId: req.user.id,
+    });
     if (existingRequest) {
       existingRequest.status = status;
       await existingRequest.save();
@@ -141,7 +186,10 @@ const updateRequest = async (req, res) => {
 
 const deleteRequest = async (req, res) => {
   try {
-    const response = await Request.findByIdAndDelete({ _id: req.params.id });
+    const response = await Request.findOneAndDelete({
+      _id: req.params.id,
+      companyId: req.user.id,
+    });
     if (response) {
       res.json({ message: "The removal was successfull." }).status(200);
     } else {

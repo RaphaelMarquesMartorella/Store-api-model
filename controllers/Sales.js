@@ -70,15 +70,11 @@ const createSales = async (req, res) => {
 };
 
 
-
-
-
 const getSales = async (req, res) => {
   try {
     if(!req.user || !req.user.id) {
       return res.status(400).json({error: 'There is no company registered as user.'})
     }
-
     const response = await Sales.find({companyId:req.user.id});
     res.json({ allSales: response }).status(200);
   } catch (error) {
@@ -89,12 +85,28 @@ const getSales = async (req, res) => {
 
 const getOneSale = async (req, res) => {
   try {
-    if(!req.user || !req.user.id) {
-      return res.status(400).json({error: 'There is no company registered as user.'})
+    const Sale = await Sales.find({ companyId: req.user.id });
+
+    if (!Sale) {
+      return res
+        .status(404)
+        .json({ error: "There is no sales for this user." });
     }
 
-    const response = await Sales.findById({ _id: req.params.id });
-    res.json(response).status(200);
+    const paramId = await Sales.find({ _id: req.params.id });
+
+    if (!paramId) {
+      return res
+        .status(404)
+        .json({ error: "There is no sale id that match this param id." });
+    }
+
+    const existingSales = await Sales.findOne({
+      _id: req.params.id,
+      companyId: req.user.id,
+    });
+
+    res.status(200).json({ existingSales });
   } catch (error) {
     console.log(error);
     res.json({ error: "It was not possible to get this sale." }).status(500);
@@ -108,7 +120,10 @@ const updateSale = async (req, res) => {
     const products = await Product.find({
       productId: { $in: productId },
     }).exec();
-    let existingSale = await Sales.findById({ _id: req.params.id }).exec();
+    let existingSale = await Sales.findOne({
+      _id: req.params.id,
+      companyId: req.user.id,
+    }).exec();
     
 
     if (!existingSale) {
@@ -160,7 +175,10 @@ const updateSale = async (req, res) => {
 
 const deleteSale = async (req, res) => {
   try {
-    const response = await Sales.findByIdAndDelete({ _id: req.params.id });
+    const response = await Sales.findOneAndDelete({
+      _id: req.params.id,
+      companyId: req.user.id,
+    });
     if (response) {
       res.json({ message: "The removal was successfull." }).status(200);
     } else {
