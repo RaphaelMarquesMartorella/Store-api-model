@@ -11,6 +11,16 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ error: 'There is no company registered as user.' });
     }
 
+    const companyProduct = await Company.findOne({ _id: req.user.id });
+
+    if (!companyProduct) {
+      return res.status(404).json({ error: "There is no company for this user." });
+    }
+
+    if (existingProduct) {
+      return res.json({ error: "This product was already added." });
+    }
+
     const newProduct = new Product({
       productName,
       description,
@@ -19,17 +29,17 @@ const createProduct = async (req, res) => {
       companyId: req.user.id
     });
 
-    if (existingProduct) {
-      return res.json({ error: "This product was already added." });
-    }
-
     await newProduct.save();
 
-    const companyProduct = await Company.findOne({_id: newProduct.companyId})
+    const productId = newProduct.productId;
 
-    companyProduct.productId.push(newProduct)
-
-    companyProduct.save()
+    const productEntry = {
+      productId,
+    };
+  
+    companyProduct.products.push(productEntry);
+  
+    await companyProduct.save();
 
     res.status(201).json({ message: "Product created successfully!", allProducts: newProduct });
   } catch (error) {
@@ -37,8 +47,6 @@ const createProduct = async (req, res) => {
     res.status(500).json({ error: "An error occurred." });
   }
 };
-
-
 
 
 const getProducts = async (req, res) => {

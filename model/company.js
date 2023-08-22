@@ -18,12 +18,18 @@ const companySchema = new mongoose.Schema({
     required: [true, "Please provide a CNPJ"],
     unique: true,
   },
-  productId: [
+  products: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "products",
+      productId: { 
+        type: mongoose.Schema.Types.ObjectId, ref: "products" 
+      },
+      stockNumber: { 
+        type: Number, 
+        default: 0
+       },
     },
   ],
+
   clientId: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -36,10 +42,12 @@ const companySchema = new mongoose.Schema({
       ref: "requests",
     },
   ],
-  saleId: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'sales'
-  }],
+  saleId: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "sales",
+    },
+  ],
 });
 
 module.exports = mongoose.model("companies", companySchema);

@@ -1,10 +1,15 @@
 const Stock = require("../model/stock");
 const Product = require("../model/product");
+const Company = require("../model/company");
 
 const createStock = async (req, res) => {
   const { productId, stockNumber } = req.body;
   try {
-    const existingProduct = await Product.findOne({ productId });
+    const existingProduct = await Product.findOne({
+      productId,
+      companyId: req.user.id,
+    });
+
     const existingStock = await Stock.findOne({ productId }).exec();
 
     if (existingProduct) {
@@ -18,18 +23,38 @@ const createStock = async (req, res) => {
           stockNumber,
         });
         await newStock.save();
-        res.status(201).json({message: "Stock created successfully!", Stock: newStock});
+
+        
+
+        res
+          .status(201)
+          .json({ message: "Stock created successfully!", Stock: newStock });
       }
     } else {
       res
         .status(404)
         .json({ error: "There is no product with this productId." });
     }
+
+      let stockCompany = await Company.findOne({ _id: req.user.id});
+
+      let existingCompanyStock = stockCompany.products.find((product) => product.productId && product.productId.equals(productId))
+
+        if(existingCompanyStock) {
+          existingCompanyStock.stockNumber += stockNumber;
+      
+        await stockCompany.save();
+        }
+      
+        
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "It was not possible to create the stock." });
   }
 };
+
+
 
 getStock = async (req, res) => {
   try {
@@ -40,7 +65,7 @@ getStock = async (req, res) => {
       res.json({ error: "Could not find this stock" }).status(200);
     }
   } catch (error) {
-    res.json({error: 'It was not possible  to get this stock.'}).status(500);
+    res.json({ error: "It was not possible  to get this stock." }).status(500);
     console.log(error);
   }
 };
@@ -67,9 +92,16 @@ const updateStock = async (req, res) => {
   try {
     let existingProduct = null;
     if (productId) {
-      existingProduct = await Product.findOne({ productId });
+      existingProduct = await Product.findOne({
+        productId,
+        companyId: req.user.id,
+      });
       if (!existingProduct) {
-        return res.json({ error: "There is no product with this productId." }).status(404);
+        return res
+          .json({
+            error: "There is no product with this productId or companyId.",
+          })
+          .status(404);
       }
     }
 
@@ -86,7 +118,10 @@ const updateStock = async (req, res) => {
       existingStock.stockNumber += stockNumber;
     }
 
-    if (existingStock.isModified("productId") || existingStock.isModified("stockNumber")) {
+    if (
+      existingStock.isModified("productId") ||
+      existingStock.isModified("stockNumber")
+    ) {
       await existingStock.save();
       return res.json(existingStock).status(200);
     } else if (productId && !existingStock.productId.equals(productId)) {
@@ -94,14 +129,18 @@ const updateStock = async (req, res) => {
     } else if (stockNumber && existingStock.stockNumber !== stockNumber) {
       return res.json({ message: "The stockNumber was updated." }).status(200);
     } else {
-      return res.json({ message: "There was no change. Therefore it was not possible to update." }).status(200);
+      return res
+        .json({
+          message:
+            "There was no change. Therefore it was not possible to update.",
+        })
+        .status(200);
     }
   } catch (error) {
     console.log(error);
     return res.json({ error: "It was not possible to update." }).status(500);
   }
 };
-
 
 const deleteStock = async (req, res) => {
   Stock.findByIdAndDelete({ _id: req.params.id })
