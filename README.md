@@ -16,7 +16,7 @@
 
 ## Documentation
 
-localhost:3001/api/v1/api-docs
+https://api--modeling-58cf3aeea5ca.herokuapp.com/api-docs/
 ## Links
 
 Figma: https://www.figma.com/file/CQOBVRL5QaQJqIFnljKgNE/Beauty-Store?type=design&node-id=0%3A1&mode=design&t=VLbRBRIQ2lfwZFAy-1
