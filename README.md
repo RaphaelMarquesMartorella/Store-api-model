@@ -1,16 +1,8 @@
-## API E MODELAGEM DE DADOS DE UMA LOJA VIRTUAL
-
-###API feita com Node.js e com seus framework Express.js, para uma loja virtual. Documentação feita com Swagger UI.
-
-
 ## API and Data Modeling for an E-commerce Store
                         
 ### API developed using Node.js and its Express.js framework for an e-commerce store. Documentation created using Swagger UI.
 
-                                
-
-
-
+<br/>
 
 
 ## Documentation
