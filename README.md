@@ -1,12 +1,11 @@
-﻿                                          API E MODELAGEM DE DADOS DE UMA LOJA VIRTUAL
+## API E MODELAGEM DE DADOS DE UMA LOJA VIRTUAL
+
+###API feita com Node.js e com seus framework Express.js, para uma loja virtual. Documentação feita com Swagger UI.
 
 
-            API feita com Node.js e com seus framework Express.js, para uma loja virtual. Documentação feita com Swagger UI.
-
-
-                                          API and Data Modeling for an E-commerce Store
+## API and Data Modeling for an E-commerce Store
                         
-             API developed using Node.js and its Express.js framework for an e-commerce store. Documentation created using Swagger UI.
+### API developed using Node.js and its Express.js framework for an e-commerce store. Documentation created using Swagger UI.
 
                                 
 
@@ -20,7 +19,6 @@ https://api--modeling-58cf3aeea5ca.herokuapp.com/api-docs/
 
 ## 🔗 Links
 Figma: https://www.figma.com/file/CQOBVRL5QaQJqIFnljKgNE/Beauty-Store?type=design&node-id=0%3A1&mode=design&t=VLbRBRIQ2lfwZFAy-1
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/raphael-marques-martorella)
 
 ## Run Locally
 
@@ -47,6 +45,13 @@ Start the server
 ```bash
   npm run start
 ```
+
+<br/>
+
+## 🔗 Links
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/raphael-marques-martorella)
+
+<br/>
 
 
 ## Screenshots
