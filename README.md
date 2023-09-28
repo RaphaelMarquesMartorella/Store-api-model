@@ -1,4 +1,4 @@
-## API and Data Modeling for an E-commerce Store
+# API and Data Modeling for an E-commerce Store
 
 <br/>
                         
