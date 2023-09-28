@@ -17,9 +17,11 @@
 ## Documentation
 
 https://api--modeling-58cf3aeea5ca.herokuapp.com/api-docs/
-## Links
 
+## 🔗 Links
 Figma: https://www.figma.com/file/CQOBVRL5QaQJqIFnljKgNE/Beauty-Store?type=design&node-id=0%3A1&mode=design&t=VLbRBRIQ2lfwZFAy-1
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/raphael-marques-martorella)
+
 ## Run Locally
 
 Clone the project
