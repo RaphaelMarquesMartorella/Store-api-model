@@ -1,6 +1,7 @@
 const Product = require("../model/product");
+import { Request, Response } from "express";
 
-const createProduct = async (req, res) => {
+export const createProduct = async (req: Request, res: Response) => {
   const { productName } = req.body;
   try {
     const existingProduct = await Product.findOne({ productName });
@@ -21,7 +22,7 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getProducts = async (req, res) => {
+export const getProducts = async (_: Request, res: Response) => {
   try {
     const response = await Product.find({});
     res.json({ allProducts: response }).status(200);
@@ -31,7 +32,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getOneProduct = async (req, res) => {
+export const getOneProduct = async (req: Request, res: Response) => {
   try {
     const response = await Product.findById({ _id: req.params.id });
     res.json(response).status(200);
@@ -41,7 +42,7 @@ const getOneProduct = async (req, res) => {
   }
 };
 
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req: Request, res: Response) => {
   try {
     const response = await Product.findByIdAndUpdate(
       { _id: req.params.id },
@@ -57,7 +58,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req: Request, res: Response) => {
   try {
     const response = await Product.findByIdAndRemove(req.params.id);
     if (response) {
@@ -69,12 +70,4 @@ const deleteProduct = async (req, res) => {
     res.json({error: 'It was not possible to delete this product.'}).status(500)
     console.log(error);
   }
-};
-
-module.exports = {
-  createProduct,
-  getProducts,
-  getOneProduct,
-  updateProduct,
-  deleteProduct,
 };

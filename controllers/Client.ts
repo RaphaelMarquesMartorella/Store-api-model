@@ -1,6 +1,7 @@
 const Client = require("../model/client");
+import { Request, Response } from "express";
 
-const createClient = async (req, res) => {
+export const createClient = async (req: Request, res: Response) => {
     const { fullName, adress, email, phone } = req.body;
   
     const client = {
@@ -28,7 +29,7 @@ const createClient = async (req, res) => {
     }
   };
   
-const getClients = async (req, res) => {
+export const getClients = async (_: Request, res: Response) => {
   try {
     const response = await Client.find({});
     res.json({ allClients: response }).status(200);
@@ -37,7 +38,7 @@ const getClients = async (req, res) => {
   }
 };
 
-const getOneClient = async (req, res) => {
+export const getOneClient = async (req: Request, res: Response) => {
   try {
     const response = await Client.findById({ _id: req.params.id });
     res.json(response).status(200);
@@ -46,7 +47,7 @@ const getOneClient = async (req, res) => {
   }
 };
 
-const updateClient = async (req, res) => {
+export const updateClient = async (req: Request, res: Response) => {
     const { fullName, adress, email, phone } = req.body;
     
     const updatedClient = {
@@ -75,13 +76,8 @@ const updateClient = async (req, res) => {
     }
   };
   
-  module.exports = updateClient;
-  
-  
-  module.exports = updateClient;
-  
 
-const deleteClient = async (req, res) => {
+export const deleteClient = async (req: Request, res: Response) => {
   try {
     const response = await Client.findByIdAndRemove({ _id: req.params.id });
     if (response) {
@@ -92,12 +88,4 @@ const deleteClient = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
-
-module.exports = {
-  createClient,
-  getClients,
-  getOneClient,
-  updateClient,
-  deleteClient,
 };

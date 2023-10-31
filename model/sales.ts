@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose"
 
 const saleSchema = new mongoose.Schema(
   {
@@ -23,7 +23,7 @@ const saleSchema = new mongoose.Schema(
   }
 );
 
-saleSchema.pre("save", function (next) {
+saleSchema.pre("save", function (next:any) {
   if (this.isNew || this.isModified("clientId") || this.isModified("productId")) {
     this.saleId = new mongoose.Types.ObjectId();
   }

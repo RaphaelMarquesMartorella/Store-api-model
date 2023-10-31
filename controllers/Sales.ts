@@ -2,8 +2,9 @@ const Sales = require("../model/sales");
 const Stock = require("../model/stock");
 const Client = require("../model/client");
 const Product = require("../model/product");
+import { Request, Response } from "express";
 
-const createSales = async (req, res) => {
+export const createSales = async (req: Request, res: Response) => {
   const { clientId, productId } = req.body;
   
   try {
@@ -11,8 +12,8 @@ const createSales = async (req, res) => {
       productId: { $in: productId },
     }).exec();
 
-    const allProductsExist = productId.every((id) =>
-      products.some((product) => product.productId.equals(id))
+    const allProductsExist = productId.every((id:any) =>
+      products.some((product:any) => product.productId.equals(id))
     );
 
     if (!allProductsExist) {
@@ -58,7 +59,7 @@ const createSales = async (req, res) => {
 
 
 
-const getSales = async (req, res) => {
+export const getSales = async (req: Request, res: Response) => {
   try {
     const response = await Sales.find({});
     res.json({ allSales: response }).status(200);
@@ -68,7 +69,7 @@ const getSales = async (req, res) => {
   }
 };
 
-const getOneSale = async (req, res) => {
+export const getOneSale = async (req: Request, res: Response) => {
   try {
     const response = await Sales.findById({ _id: req.params.id });
     res.json(response).status(200);
@@ -78,7 +79,7 @@ const getOneSale = async (req, res) => {
   }
 };
 
-const updateSale = async (req, res) => {
+export const updateSale = async (req: Request, res: Response) => {
   const { clientId, productId } = req.body;
   
   try {
@@ -91,8 +92,8 @@ const updateSale = async (req, res) => {
     if (!existingSale) {
       return res.status(404).json({ message: "Sale not found." });
     } else {
-      const allProductsExist = productId.every((id) =>
-        products.some((product) => product.productId.equals(id))
+      const allProductsExist = productId.every((id:any) =>
+        products.some((product:any) => product.productId.equals(id))
       );
       if (!allProductsExist) {
         return res
@@ -109,7 +110,7 @@ const updateSale = async (req, res) => {
       const hasChanges =
         !existingSale.clientId.equals(clientId) ||
         existingSale.productId.length !== productId.length ||
-        existingProductIds.some((id) => !newProductIds.includes(id));
+        existingProductIds.some((id:any) => !newProductIds.includes(id));
 
       if (!hasChanges) {
         return res
@@ -135,7 +136,7 @@ const updateSale = async (req, res) => {
 
 
 
-const deleteSale = async (req, res) => {
+export const deleteSale = async (req: Request, res: Response) => {
   try {
     const response = await Sales.findByIdAndDelete({ _id: req.params.id });
     if (response) {
@@ -147,12 +148,4 @@ const deleteSale = async (req, res) => {
     console.log(error);
     res.json({ error: "It was not possible to delete this sale." }).status(500);
   }
-};
-
-module.exports = {
-  createSales,
-  getSales,
-  getOneSale,
-  updateSale,
-  deleteSale,
 };

@@ -8,7 +8,7 @@ const options = {
       description: 'API documentation for your application',
     },
   },
-  apis: ['./router/client.js', './router/product.js', './router/sales.js', './router/stock.js', './router/request.js'],
+  apis: ['./router/client.ts', './router/product.ts', './router/sales.ts', './router/stock.ts', './router/request.ts'],
 };
 const specs = swaggerJsdoc(options);
 module.exports = specs;

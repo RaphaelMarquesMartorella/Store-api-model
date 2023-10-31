@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose, { Model, Document } from 'mongoose';
 
 const clientSchema = new mongoose.Schema ({
     clientId: {

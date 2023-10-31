@@ -1,13 +1,15 @@
 const Request = require("../model/request");
 const Sales = require("../model/sales");
 
-const createRequestPerClient = async (req, res) => {
+import { Request as requestType, Response } from "express";
+
+export const createRequestPerClient = async (req: requestType, res:Response) => {
   const { saleId, status, clientId } = req.body;
   try {
     const existingSales = await Sales.find({ clientId });
 
     if (existingSales.length > 0) {
-      const productIds = existingSales.flatMap((sale) => sale.productId);
+      const productIds = existingSales.flatMap((sale:any) => sale.productId);
       const quantity = productIds.length;
 
       const existingRequest = await Request.findOne({ saleId });
@@ -39,7 +41,7 @@ const createRequestPerClient = async (req, res) => {
   }
 };
 
-const createRequest = async (req, res) => {
+export const createRequest = async (req: requestType, res:Response) => {
   const { saleId, status } = req.body;
   try {
     let existingSale = await Sales.findOne({ saleId });
@@ -73,7 +75,7 @@ const createRequest = async (req, res) => {
   }
 };
 
-const getOneRequest = async (req, res) => {
+export const getOneRequest = async (req: requestType, res:Response) => {
   try {
     const existingRequest = await Request.findById(req.params.id);
     res.json({ existingRequest }).status(200);
@@ -82,7 +84,7 @@ const getOneRequest = async (req, res) => {
   }
 };
 
-const getRequests = async (req, res) => {
+export const getRequests = async (_: requestType, res:Response) => {
   try {
     const allRequests = await Request.find();
     res.json({ allRequests }).status(200);
@@ -91,7 +93,7 @@ const getRequests = async (req, res) => {
   }
 };
 
-const updateRequest = async (req, res) => {
+export const updateRequest = async (req: requestType, res:Response) => {
   const { status } = req.body;
   try {
     let existingRequest = await Request.findById(req.params.id);
@@ -108,7 +110,7 @@ const updateRequest = async (req, res) => {
   }
 };
 
-const deleteRequest = async (req, res) => {
+export const deleteRequest = async (req: requestType, res:Response) => {
   try {
     const response = await Request.findByIdAndDelete({ _id: req.params.id });
     if (response) {
@@ -122,13 +124,4 @@ const deleteRequest = async (req, res) => {
       .json({ error: "It was not possible to delete this request." })
       .status(500);
   }
-};
-
-module.exports = {
-  createRequestPerClient,
-  createRequest,
-  getOneRequest,
-  getRequests,
-  updateRequest,
-  deleteRequest,
 };

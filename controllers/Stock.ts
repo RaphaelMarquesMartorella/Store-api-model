@@ -1,7 +1,8 @@
 const Stock = require("../model/stock");
 const Product = require("../model/product");
+import { Request, Response } from "express";
 
-const createStock = async (req, res) => {
+export const createStock = async (req: Request, res: Response) => {
   const { productId, stockNumber } = req.body;
   try {
     const existingProduct = await Product.findOne({ productId });
@@ -31,7 +32,7 @@ const createStock = async (req, res) => {
   }
 };
 
-getStock = async (req, res) => {
+export const getStock = async (req: Request, res: Response) => {
   try {
     const stock = await Stock.findById(req.params.id);
     if (stock) {
@@ -45,7 +46,7 @@ getStock = async (req, res) => {
   }
 };
 
-const getAllStock = async (req, res) => {
+export const getAllStock = async (req: Request, res: Response) => {
   try {
     let allStock = await Stock.find();
     let totalStock = 0;
@@ -62,7 +63,7 @@ const getAllStock = async (req, res) => {
   }
 };
 
-const updateStock = async (req, res) => {
+export const updateStock = async (req: Request, res: Response) => {
   const { productId, stockNumber } = req.body;
   try {
     let existingProduct = null;
@@ -103,16 +104,16 @@ const updateStock = async (req, res) => {
 };
 
 
-const deleteStock = async (req, res) => {
+export const deleteStock = async (req: Request, res: Response) => {
   Stock.findByIdAndDelete({ _id: req.params.id })
-    .then((deletedStock) => {
+    .then((deletedStock:any) => {
       if (deletedStock) {
         res.json({ message: "Your removal was successfull!" }).status(200);
       } else {
         res.json({ error: "There is no item that match this id." }).status(404);
       }
     })
-    .catch((error) => {
+    .catch((error:Error) => {
       console.log(error);
       res
         .json({ error: "It was not possible to delete this stock." })
